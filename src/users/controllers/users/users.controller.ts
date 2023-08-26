@@ -8,6 +8,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { User } from 'src/typeorm';
 import { CreateUserDto } from 'src/users/dtos/CreateUserDto';
 import { UsersService } from 'src/users/services/users/users.service';
 
@@ -27,7 +28,7 @@ export class UsersController {
 
   @Post('create')
   @UsePipes(ValidationPipe)
-  createUsers(@Body() createUserDto: CreateUserDto) {
+  async createUsers(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.createUser(createUserDto);
   }
 }
