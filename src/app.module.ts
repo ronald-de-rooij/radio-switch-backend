@@ -3,6 +3,7 @@ import { StreamsModule } from './streams/streams.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PrismaModule } from './prisma/prisma.module';
 import entities from './typeorm';
 
 @Module({
@@ -24,6 +25,7 @@ import entities from './typeorm';
     }),
     StreamsModule,
     UsersModule,
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
