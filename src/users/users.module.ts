@@ -3,10 +3,10 @@ import { UsersController } from './controllers/users/users.controller';
 import { UsersService } from './services/users/users.service';
 // import { User } from 'src/typeorm';
 // import { TypeOrmModule } from '@nestjs/typeorm';
-import { PrismaModule } from 'src/prisma/prisma.module';
+// import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule],
+  // imports: [PrismaModule],
   // imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService],
