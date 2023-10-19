@@ -11,22 +11,36 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String   @unique
-  role      Role     @default(USER)
+
+  email    String @unique
+  password String
+
+  role Role @default(USER)
+
   firstName String?
   lastName  String?
-  password  String
+
+  @@map("users")
 }
 
 model Stream {
-  id        Int            @id @default(autoincrement())
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  name      String?
-  url       String?
-  image     String?
-  category  StreamCategory @default(RADIO)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name     String?        @unique
+  url      String?
+  image    String?
+  category StreamCategory @default(RADIO)
+
+  @@map("streams")
 }
+
+// TODO Implement Bookmark model, which will be used to store user's streams bookmarks
+
+// userId Int
+// streamId
+// user   User @relation(fields: [userId], references: [id])
 
 enum Role {
   ADMIN

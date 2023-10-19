@@ -1,16 +1,48 @@
-version: '3.8'
+# version: '3.8'
+# services:
+#   postgres:
+#     container_name: postgres
+#     image: postgres:latest
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: postgres
+#     volumes:
+#       - postgres:/var/lib/postgresql/data
+#     ports:
+#       - '5432:5432'
+# volumes:
+#   postgres:
+
+# version: '3.8'
+# services:
+#   postgres:
+#     container_name: radioswitch
+#     image: postgres:latest
+#     restart: always
+#     environment:
+#       POSTGRES_USER: radioswitch
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: radioswitch
+#     volumes:
+#       - postgres:/var/lib/postgresql/data
+#     ports:
+#       - '5432:5432'
+# volumes:
+#   postgres:
+
 services:
   postgres:
-    container_name: postgres
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    container_name: radioswitch-postgres
+    image: postgres
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - radioswitch-db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - '5432:5432'
+      - 6500:5432
 volumes:
-  postgres:
+  radioswitch-db-data:
