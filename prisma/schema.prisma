@@ -28,10 +28,11 @@ model Stream {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name     String?        @unique
-  url      String?
-  image    String?
-  category StreamCategory @default(RADIO)
+  name        String
+  description String?
+  url         String
+  image       String?
+  category    StreamCategory? @default(RADIO)
 
   @@map("streams")
 }
