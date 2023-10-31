@@ -31,7 +31,7 @@ model Stream {
   name        String
   description String?
   url         String
-  image       String?
+  imageUrl    String?
   category    StreamCategory? @default(RADIO)
 
   @@map("streams")

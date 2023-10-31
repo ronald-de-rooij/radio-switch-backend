@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { StreamService } from './stream.service';
 import { CreateStreamDto } from './dto/create-stream.dto';
 import { AdminGuard } from 'src/auth/guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import multerOptions from 'multer.config';
 
 @Controller('streams')
 export class StreamController {
@@ -19,8 +30,11 @@ export class StreamController {
 
   @UseGuards(AdminGuard)
   @Post()
-  create(@Body() createStreamDto: CreateStreamDto) {
-    console.log('hoi');
-    return this.streamService.create(createStreamDto);
+  @UseInterceptors(FileInterceptor('image', multerOptions))
+  create(
+    @Body() createStreamDto: CreateStreamDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    return this.streamService.create(createStreamDto, image);
   }
 }
