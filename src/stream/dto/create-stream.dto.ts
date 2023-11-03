@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class CreateStreamDto {
   @IsString()
@@ -11,7 +11,8 @@ export class CreateStreamDto {
 
   @IsString()
   @IsNotEmpty()
-  url: string;
+  @IsUrl()
+  streamUrl: string;
 
   @IsString()
   @IsOptional()

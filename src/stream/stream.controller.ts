@@ -25,7 +25,7 @@ export class StreamController {
 
   @Get('/:id')
   findOne(@Param('id') id: string) {
-    return this.streamService.findOne(+id);
+    return this.streamService.findOne(id);
   }
 
   @UseGuards(AdminGuard)

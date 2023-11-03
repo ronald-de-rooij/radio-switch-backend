@@ -17,13 +17,13 @@ export class UserController {
   }
 
   @Patch()
-  editUser(@GetUser('id') userId: number, @Body() editUserDto: EditUserDto) {
+  editUser(@GetUser('id') userId: string, @Body() editUserDto: EditUserDto) {
     return this.userService.editUser(userId, editUserDto);
   }
 
   @Post('password')
   async changePassword(
-    @GetUser('id') userId: number,
+    @GetUser('id') userId: string,
     @Body() changePassword: ChangePasswordDto,
   ) {
     return this.userService.changePassword(userId, changePassword);

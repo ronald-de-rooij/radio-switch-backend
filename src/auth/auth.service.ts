@@ -17,13 +17,13 @@ export class AuthService {
 
   async signUp(authDto: AuthDto) {
     // generate the password hash
-    const hash = await argon.hash(authDto.password);
+    const passwordHash = await argon.hash(authDto.password);
     //save the new user in the db
     try {
       const user = await this.prisma.user.create({
         data: {
           email: authDto.email,
-          password: hash,
+          password: passwordHash,
         },
       });
 
@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   async signToken(
-    userId: number,
+    userId: string,
     email: string,
   ): Promise<{ access_token: string }> {
     const payload = {

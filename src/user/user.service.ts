@@ -8,7 +8,7 @@ import * as argon from 'argon2';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async editUser(userId: number, editUserDto: EditUserDto) {
+  async editUser(userId: string, editUserDto: EditUserDto) {
     const user = await this.prisma.user.update({
       where: {
         id: userId,
@@ -23,7 +23,7 @@ export class UserService {
     return user;
   }
 
-  async changePassword(userId: number, changePasswordDto: ChangePasswordDto) {
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,

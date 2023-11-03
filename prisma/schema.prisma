@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,13 +24,13 @@ model User {
 }
 
 model Stream {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   name        String
   description String?
-  url         String
+  streamUrl   String
   imageUrl    String?
   category    StreamCategory? @default(RADIO)
 
