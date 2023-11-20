@@ -1,19 +1,12 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 
-  - You are about to drop the `Stream` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "Stream";
-
--- DropTable
-DROP TABLE "User";
+-- CreateEnum
+CREATE TYPE "StreamCategory" AS ENUM ('RADIO');
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
@@ -27,19 +20,17 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "streams" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "name" TEXT,
-    "url" TEXT,
-    "image" TEXT,
-    "category" "StreamCategory" NOT NULL DEFAULT 'RADIO',
+    "name" TEXT NOT NULL,
+    "category" "StreamCategory" DEFAULT 'RADIO',
+    "description" TEXT,
+    "imageUrl" TEXT,
+    "streamUrl" TEXT NOT NULL,
 
     CONSTRAINT "streams_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "streams_name_key" ON "streams"("name");

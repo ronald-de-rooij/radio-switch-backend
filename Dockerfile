@@ -1,32 +1,12 @@
-# https://www.tomray.dev/nestjs-docker-production
+# Base image
+FROM node:18
 
-###################
-# BUILD FOR LOCAL DEVELOPMENT
-###################
-
-FROM node:18 As development
+# Install pnpm
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY --chown=node:node pnpm-lock.yaml ./
-
-RUN pnpm fetch --prod
-
-COPY --chown=node:node . .
-RUN pnpm install
-
-USER node
-
-###################
-# BUILD FOR PRODUCTION
-###################
-FROM node:18 As build
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-
-WORKDIR /usr/src/app
-
-# Set environment variables from .env
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_USERNAME=${DB_USERNAME}
 ENV DB_NAME=${DB_NAME}
@@ -35,33 +15,21 @@ ENV DB_PORT=${DB_PORT}
 ENV DATABASE_URL=${DATABASE_URL}
 ENV JWT_SECRET=${JWT_SECRET}
 
-# # Prisma client
-# COPY --from=development /usr/src/app/node_modules ./node_modules
-# COPY --chown=node:node prisma ./prisma
-# RUN npx prisma generate
+COPY --chown=node:node prisma ./prisma
 
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY --chown=node:node package.json ./
 COPY --chown=node:node pnpm-lock.yaml ./
 
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+# Install app dependencies
+RUN pnpm install
+RUN npx prisma generate
 
+# Bundle app source
 COPY --chown=node:node . .
 
+# Creates a "dist" folder with the production build
 RUN pnpm build
 
-ENV NODE_ENV production
-
-
-RUN pnpm install --prod
-
-USER node
-
-###################
-# PRODUCTION
-###################
-
-FROM node:18 As production
-
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-
+# Start the server using the production build
 CMD [ "node", "dist/src/main.js" ]
